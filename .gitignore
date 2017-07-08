@@ -1,10 +1,8 @@
 *.class
-<<<<<<< HEAD
-=======
 *.project
 *.classpath
 
->>>>>>> 2b608108e2bfbddc4d9df8e5d496326e4537331e
+
 .metadata
 bin/
 tmp/
@@ -16,11 +14,6 @@ local.properties
 .settings/
 .loadpath
 .recommenders
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 2b608108e2bfbddc4d9df8e5d496326e4537331e
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
