@@ -3,20 +3,20 @@ package com.globant.topic0.exercise1.ex2;
 public class Customer {
 
 	// Fields
-	private int ID;
+	private int id;
 	private String name;
 	private char gender;
 
 	// Constructor
-	public Customer(int ID, String name, char gender) {
-		this.ID = ID;
+	public Customer(int id, String name, char gender) {
+		this.id = id;
 		this.name = name;
 		this.gender = gender;
 	}
 
 	// Getters
-	public int getID() {
-		return ID;
+	public int getId() {
+		return id;
 	}
 
 	public String getName() {
@@ -29,7 +29,7 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return name + "(" + ID + ")";
+		return name + "(" + id + ")";
 	}
 
 }

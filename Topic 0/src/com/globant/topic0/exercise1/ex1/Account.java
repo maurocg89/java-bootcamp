@@ -33,6 +33,10 @@ public class Account {
 		return balance;
 	}
 
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+
 	// Add amount to balance and return the new balance
 	public int credit(int amount) {
 		return balance += amount;
@@ -51,7 +55,7 @@ public class Account {
 	// Transfer amount to another account and return the new balance
 	public int transferTo(Account another, int amount) {
 		if (amount <= balance) {
-			another.balance += amount;
+			another.setBalance(another.getBalance() + amount);
 			balance -= amount;
 		} else {
 			System.out.println("Amount exceeded balance");
