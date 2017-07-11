@@ -12,9 +12,9 @@ public class HospitalDirector {
 		this.hospitalBuilder = hospitalBuilder;
 	}
 
-	public Hospital constructHospital() {
-		hospitalBuilder.buildNumberOfEmployees();
-		hospitalBuilder.buildRooms();
+	public Hospital constructHospital(int rooms, int employees) {
+		hospitalBuilder.buildNumberOfEmployees(employees);
+		hospitalBuilder.buildRooms(rooms);
 		Hospital hospital = hospitalBuilder.getHospital();
 
 		return hospital;

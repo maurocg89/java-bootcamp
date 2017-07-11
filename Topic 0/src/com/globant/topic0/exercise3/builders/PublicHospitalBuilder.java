@@ -19,13 +19,13 @@ public class PublicHospitalBuilder extends HospitalBuilder {
 	}
 
 	@Override
-	public void buildRooms() {
-		publicHospital.setRooms(50);
+	public void buildRooms(int rooms) {
+		publicHospital.setRooms(rooms);
 	}
 
 	@Override
-	public void buildNumberOfEmployees() {
-		publicHospital.setNumberOfEmployees(200);
+	public void buildNumberOfEmployees(int employees) {
+		publicHospital.setNumberOfEmployees(employees);
 	}
 
 }

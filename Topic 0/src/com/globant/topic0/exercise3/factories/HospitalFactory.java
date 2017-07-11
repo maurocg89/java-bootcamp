@@ -10,19 +10,20 @@ import com.globant.topic0.exercise3.model.Hospital;
 
 public class HospitalFactory {
 
-	public Hospital getHospital(String type) {
+	public Hospital getHospital(String type, int rooms, int employees) {
 		HospitalBuilder hospitalBuilder;
 		HospitalDirector hospitalDirector;
 		switch (type.toLowerCase()) {
 		case "public":
 			hospitalBuilder = new PublicHospitalBuilder();
 			hospitalDirector = new HospitalDirector(hospitalBuilder);
-			return hospitalDirector.constructHospital();
+			return hospitalDirector.constructHospital(rooms, employees);
 		case "private":
 			hospitalBuilder = new PrivateHospitalBuilder();
 			hospitalDirector = new HospitalDirector(hospitalBuilder);
-			return hospitalDirector.constructHospital();
+			return hospitalDirector.constructHospital(rooms, employees);
 		default:
+			System.out.println("You have to introduce a valid type of Hospital");
 			return null;
 		}
 	}
