@@ -1,13 +1,14 @@
 package com.globant.topic1.exercise1.model;
 
 public class Product {
-	
+
 	// Fields
 	private int id;
 	private double price;
 	private String name;
 	private String description;
-	
+
+	// Constructor
 	public Product(int id, double price, String name, String description) {
 		this.id = id;
 		this.price = price;
@@ -15,6 +16,7 @@ public class Product {
 		this.description = description;
 	}
 
+	// Getters and Setters
 	public int getIdProduct() {
 		return id;
 	}
@@ -46,7 +48,8 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	// End of Getters and Setters
+
 	// toString, hashCode and equals
 	@Override
 	public String toString() {
@@ -80,10 +83,5 @@ public class Product {
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
-	
+
 }

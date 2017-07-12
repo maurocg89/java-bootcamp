@@ -7,12 +7,22 @@ import com.globant.topic1.exercise1.strategy.IPaymentMethodStrategy;
 
 public class Cart {
 
+	// Fields
 	private List<Item> items;
-	// private Map<Product, Integer> productsMap;
 	private IPaymentMethodStrategy paymentMethod;
 
+	// Constructor
 	public Cart() {
 		this.items = new ArrayList<>();
+	}
+	
+	// Get and Set the payment method
+	public IPaymentMethodStrategy getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(IPaymentMethodStrategy paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public void addItem(Item newItem) {
@@ -41,14 +51,6 @@ public class Cart {
 		}
 
 		return total;
-	}
-
-	public IPaymentMethodStrategy getPaymentMethod() {
-		return paymentMethod;
-	}
-
-	public void setPaymentMethod(IPaymentMethodStrategy paymentMethod) {
-		this.paymentMethod = paymentMethod;
 	}
 
 	public void pay() {
