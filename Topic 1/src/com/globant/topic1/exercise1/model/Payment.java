@@ -32,7 +32,7 @@ public class Payment {
 	}
 
 	public void pay() {
-		paymentMethod.pay(cart.getTotal());
+		paymentMethod.pay(cart);
 	}
 
 }
