@@ -2,6 +2,7 @@ package com.globant.topic1.exercise1.test;
 
 import com.globant.topic1.exercise1.model.Cart;
 import com.globant.topic1.exercise1.model.Item;
+import com.globant.topic1.exercise1.model.Payment;
 import com.globant.topic1.exercise1.model.Product;
 import com.globant.topic1.exercise1.strategy.CashStrategy;
 
@@ -19,9 +20,8 @@ public class TestShoppingCart {
 		cart.addItem(new Item(p1, 2));
 		System.out.println(cart.getAllItems());
 		System.out.println(cart.getTotal());
-
-		cart.setPaymentMethod(new CashStrategy());
-		cart.pay();
+	
+		Payment payment = new Payment(cart, new CashStrategy());
 
 	}
 }
