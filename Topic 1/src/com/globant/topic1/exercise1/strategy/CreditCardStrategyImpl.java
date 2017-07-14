@@ -1,7 +1,7 @@
 package com.globant.topic1.exercise1.strategy;
 
 //Concrete Strategy
-public class CreditCardStrategy implements IPaymentMethodStrategy {
+public class CreditCardStrategyImpl implements IPaymentMethodStrategy {
 	
 	// Fields
 	private String name;
@@ -10,7 +10,7 @@ public class CreditCardStrategy implements IPaymentMethodStrategy {
 	private String expirationDate;
 
 	// Constructor
-	public CreditCardStrategy(String name, String cardNumber, String verificationNumber, String expirationDate) {
+	public CreditCardStrategyImpl(String name, String cardNumber, String verificationNumber, String expirationDate) {
 		this.name = name;
 		this.cardNumber = cardNumber;
 		this.verificationNumber = verificationNumber;

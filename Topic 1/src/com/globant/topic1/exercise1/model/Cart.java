@@ -3,16 +3,33 @@ package com.globant.topic1.exercise1.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.globant.topic1.exercise1.strategy.IPaymentMethodStrategy;
-
 public class Cart {
 
 	// Fields
+	private int id;
 	private List<Item> items;
 
 	// Constructor
-	public Cart() {
+	public Cart(int id) {
 		this.items = new ArrayList<>();
+		this.id = id;
+	}
+
+	// Getters and Setters
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 
 	public void addItem(Item newItem) {
@@ -27,7 +44,16 @@ public class Cart {
 	}
 
 	public void removeItem(Item item) {
-		this.items.remove(item);
+		if (items.size() == 0) {
+			System.out.println("The cart is empty");
+		} else if (items.contains(item)) {
+			items.get(items.indexOf(item));
+			this.items.remove(item);
+			System.out.println("The item " + item.getProduct() + " was removed successfully");
+		} else {
+			System.out.println("The item is not in the cart");
+		}
+
 	}
 
 	public List<Item> getAllItems() {

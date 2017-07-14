@@ -4,24 +4,30 @@ import com.globant.topic1.exercise1.model.Cart;
 import com.globant.topic1.exercise1.model.Item;
 import com.globant.topic1.exercise1.model.Payment;
 import com.globant.topic1.exercise1.model.Product;
-import com.globant.topic1.exercise1.strategy.CashStrategy;
+import com.globant.topic1.exercise1.strategy.CashStrategyImpl;
 
 public class TestShoppingCart {
 	public static void main(String[] args) {
 
-		Cart cart = new Cart();
+		Cart cart = new Cart(1);
+		Cart cart2 = new Cart(2);
 		Product p1 = new Product(1, 10, "asd", "asd");
 		Product p2 = new Product(2, 20, "asd", "asd");
 		Product p3 = new Product(3, 20, "asd", "asd");
 		Product p4 = new Product(4, 20, "asd", "asd");
-
+	
+		Item it1 = new Item(p1,2);
 		cart.addItem(new Item(p1, 2));
 		cart.addItem(new Item(p2, 1));
 		cart.addItem(new Item(p1, 2));
+		cart.addItem(it1);
 		System.out.println(cart.getAllItems());
 		System.out.println(cart.getTotal());
-	
-		Payment payment = new Payment(cart, new CashStrategy());
-
+		cart.removeItem(it1);
+		cart.removeItem(it1);
+		Payment payment = new Payment(cart, new CashStrategyImpl());
+		
+		
+		
 	}
 }

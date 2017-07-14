@@ -1,14 +1,14 @@
 package com.globant.topic1.exercise1.strategy;
 
 //Concrete Strategy
-public class PaypalStrategy implements IPaymentMethodStrategy {
+public class PaypalStrategyImpl implements IPaymentMethodStrategy {
 
 	// Fields
 	private String email;
 	private String password;
 
 	// Constructor
-	public PaypalStrategy(String email, String password) {
+	public PaypalStrategyImpl(String email, String password) {
 		this.email = email;
 		this.password = email;
 	}

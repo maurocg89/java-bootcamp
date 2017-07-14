@@ -53,7 +53,7 @@ public class Product {
 	// toString, hashCode and equals
 	@Override
 	public String toString() {
-		return "[ Name = " + name + ", Price = " + price + ", Description = " + description + " ] ";
+		return " Name = " + name + ", Price = $" + price;
 	}
 
 	@Override
