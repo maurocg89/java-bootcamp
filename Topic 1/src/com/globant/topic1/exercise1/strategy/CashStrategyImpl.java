@@ -3,7 +3,7 @@ package com.globant.topic1.exercise1.strategy;
 import com.globant.topic1.exercise1.model.Cart;
 
 // Concrete Strategy
-public class CashStrategy implements IPaymentMethodStrategy {
+public class CashStrategyImpl implements IPaymentMethodStrategy {
 	
 	private static final double DISCOUNT_EXPENSIVE_PRODUCT = 0.9;
 	

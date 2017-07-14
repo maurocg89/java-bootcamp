@@ -3,7 +3,7 @@ package com.globant.topic1.exercise1.strategy;
 import com.globant.topic1.exercise1.model.Cart;
 
 //Concrete Strategy
-public class CreditCardStrategy implements IPaymentMethodStrategy {
+public class CreditCardStrategyImpl implements IPaymentMethodStrategy {
 
 	// Fields
 	private static final double DISCOUNT = 0.1;
@@ -13,7 +13,7 @@ public class CreditCardStrategy implements IPaymentMethodStrategy {
 	private String expirationDate;
 
 	// Constructor
-	public CreditCardStrategy(String name, String cardNumber, String verificationNumber, String expirationDate) {
+	public CreditCardStrategyImpl(String name, String cardNumber, String verificationNumber, String expirationDate) {
 		this.name = name;
 		this.cardNumber = cardNumber;
 		this.verificationNumber = verificationNumber;
