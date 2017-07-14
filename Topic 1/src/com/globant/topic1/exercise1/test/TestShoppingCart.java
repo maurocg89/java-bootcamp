@@ -22,7 +22,7 @@ public class TestShoppingCart {
 		cart.addItem(new Item(p1, 2));
 		cart.addItem(new Item(p3, 3));
 		cart.addItem(new Item(p4, 4));
-		System.out.println(cart.getCheaperItem());
+		System.out.println(cart.getCheapestItem());
 		System.out.println(cart.getMostExpensiveItem());
 		System.out.println(cart.getAllItems());
 		System.out.println(cart.getTotal());

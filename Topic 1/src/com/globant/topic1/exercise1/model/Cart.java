@@ -1,11 +1,8 @@
 package com.globant.topic1.exercise1.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-// Clase mail con destinatario origen y asunto, y servicio que tenga metodo send que tire un syso avisando que se envio al destinatario
 
 public class Cart {
 
@@ -45,7 +42,7 @@ public class Cart {
 		return total;
 	}
 	
-	public Item getCheaperItem() {
+	public Item getCheapestItem() {
 		Comparator<Item> comparatorItem = (item1,
 				item2) -> item1.getProduct().getPrice() < item2.getProduct().getPrice() ? 1 : -1;
 		return items.stream().max(comparatorItem).orElse(null);

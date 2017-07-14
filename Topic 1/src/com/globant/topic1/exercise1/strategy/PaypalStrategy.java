@@ -24,7 +24,7 @@ public class PaypalStrategy implements IPaymentMethodStrategy {
 
 	@Override
 	public double calculateDiscount(Cart cart) {
-		return cart.getCheaperItem().getProduct().getPrice();
+		return cart.getCheapestItem().getProduct().getPrice();
 	}
 	
 	
