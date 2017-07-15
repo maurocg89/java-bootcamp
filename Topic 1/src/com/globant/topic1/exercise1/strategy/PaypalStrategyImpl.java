@@ -1,4 +1,5 @@
 package com.globant.topic1.exercise1.strategy;
+import com.globant.topic1.exercise1.model.Cart;
 
 //Concrete Strategy
 public class PaypalStrategyImpl implements IPaymentMethodStrategy {
@@ -14,9 +15,15 @@ public class PaypalStrategyImpl implements IPaymentMethodStrategy {
 	}
 
 	@Override
-	public void pay(double amount) {
-		System.out.println("Payment using Paypal successful, amount: " + amount);
+	public void pay(Cart cart) {
+		System.out.println("Payment using Paypal successful. Total amount: " + cart.getTotal()
+				+ ", amount with discount: " + (cart.getTotal() - calculateDiscount(cart)));
 
+	}
+
+	@Override
+	public double calculateDiscount(Cart cart) {
+		return cart.getCheapestItem().getProduct().getPrice();
 	}
 
 }
