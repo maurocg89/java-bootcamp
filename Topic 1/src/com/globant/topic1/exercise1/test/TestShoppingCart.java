@@ -12,20 +12,29 @@ public class TestShoppingCart {
 	public static void main(String[] args) {
 
 		Cart cart = new Cart(1);
+		Cart cart2 = new Cart(2);
+
 		Product p1 = new Product(1, 10, "asd", "asd");
 		Product p2 = new Product(2, 50, "asd", "asd");
 		Product p3 = new Product(3, 20, "asd", "asd");
 		Product p4 = new Product(4, 30, "asd", "asd");
-
+    Item it1 = new Item(p1,2);
+    
 		cart.addItem(new Item(p1, 2));
 		cart.addItem(new Item(p2, 1));
 		cart.addItem(new Item(p1, 2));
 		cart.addItem(new Item(p3, 3));
 		cart.addItem(new Item(p4, 4));
-		System.out.println(cart.getCheapestItem());
-		System.out.println(cart.getMostExpensiveItem());
+		cart.addItem(it1);
+    
 		System.out.println(cart.getAllItems());
 		System.out.println(cart.getTotal());
+		
+    cart.removeItem(it1);
+		cart.removeItem(it1);
+    
+		System.out.println(cart.getCheapestItem());
+		System.out.println(cart.getMostExpensiveItem());
 	
 		Payment payment = new Payment(cart, new CashStrategyImpl());
 		Payment payment2 = new Payment(cart, new CreditCardStrategyImpl("asd","123","123","12/18"));
@@ -33,6 +42,5 @@ public class TestShoppingCart {
 		payment.pay();
 		payment2.pay();
 		payment3.pay();
-		
 	}
 }

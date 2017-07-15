@@ -1,5 +1,4 @@
 package com.globant.topic1.exercise1.strategy;
-
 import com.globant.topic1.exercise1.model.Cart;
 
 // Concrete Strategy
@@ -17,7 +16,5 @@ public class CashStrategyImpl implements IPaymentMethodStrategy {
 	public double calculateDiscount(Cart cart) {
 		return cart.getMostExpensiveItem().getProduct().getPrice() * DISCOUNT_EXPENSIVE_PRODUCT;
 	}
-	
-	
-	
+
 }
