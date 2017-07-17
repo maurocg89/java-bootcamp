@@ -1,5 +1,6 @@
 package com.globant.topic1.exercise1.model;
 
+import com.globant.topic1.exercise1.services.SendEmailService;
 import com.globant.topic1.exercise1.singleton.PaymentNumber;
 import com.globant.topic1.exercise1.strategy.IPaymentMethodStrategy;
 
@@ -44,6 +45,7 @@ public class Payment {
 	public void pay() {
 		paymentMethod.pay(cart);
 		System.out.println("Identification number of the payment: " + paymentId);
+		SendEmailService.Send(new Email(Email.getNewTransactionSubject(paymentId)));
 	}
 
 }

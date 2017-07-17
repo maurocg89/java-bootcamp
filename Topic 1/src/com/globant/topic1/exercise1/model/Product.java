@@ -1,5 +1,7 @@
 package com.globant.topic1.exercise1.model;
 
+import com.globant.topic1.exercise1.services.SendEmailService;
+
 public class Product {
 
 	// Fields
@@ -14,6 +16,7 @@ public class Product {
 		this.price = price;
 		this.name = name;
 		this.description = description;
+		SendEmailService.Send(new Email(Email.getAddItemSubject(name)));
 	}
 
 	// Getters and Setters
@@ -31,6 +34,7 @@ public class Product {
 
 	public void setPrice(double price) {
 		this.price = price;
+		SendEmailService.Send(new Email(Email.getPriceChangedSubject(this.name, price)));
 	}
 
 	public String getName() {
