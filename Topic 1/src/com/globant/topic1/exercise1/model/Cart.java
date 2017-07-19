@@ -32,6 +32,20 @@ public class Cart {
 	public void setItems(List<Item> items) {
 		this.items = items;
 	}
+	// End of getters and setters
+
+	public void displayList() {
+		StringBuilder sb = new StringBuilder();
+		for (Item item : items) {
+			sb.append(item.getProduct().getName());
+			sb.append(": $");
+			sb.append(item.getProduct().getPrice());
+			sb.append("\n");
+		}
+
+		System.out.println(sb);
+
+	}
 
 	public void addItem(Item newItem) {
 		// If item exist, add the new quantity
@@ -48,8 +62,7 @@ public class Cart {
 		if (items.size() == 0) {
 			System.out.println("The cart is empty");
 		} else if (items.contains(item)) {
-			items.get(items.indexOf(item));
-			this.items.remove(item);
+			items.remove(item);
 			System.out.println("The item " + item.getProduct() + " was removed successfully");
 		} else {
 			System.out.println("The item is not in the cart");
