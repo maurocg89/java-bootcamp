@@ -14,7 +14,8 @@ public class Offer {
 	public Offer(String name) {
 		this.name = name;
 		this.offers = new ArrayList<>();
-		SendEmailService.Send(new Email(Email.getAddOfferSubject(name)));
+		SendEmailService.Send(new Email(Email.getFromServiceEmail(), Email.getManagerEmail(),
+				Email.getAddOfferSubject(), Email.getAddOfferMessage(name)));
 	}
 
 	// Getters and Setters

@@ -16,7 +16,8 @@ public class Product {
 		this.price = price;
 		this.name = name;
 		this.description = description;
-		SendEmailService.Send(new Email(Email.getAddItemSubject(name)));
+		SendEmailService.Send(new Email(Email.getFromServiceEmail(), Email.getManagerEmail(),
+				Email.getAddItemSubject(), Email.getAddItemMessage(name)));
 	}
 
 	// Getters and Setters
@@ -34,7 +35,8 @@ public class Product {
 
 	public void setPrice(double price) {
 		this.price = price;
-		SendEmailService.Send(new Email(Email.getPriceChangedSubject(this.name, price)));
+		SendEmailService.Send(new Email(Email.getFromServiceEmail(), Email.getManagerEmail(),
+				Email.getPriceChangedSubject(), Email.getPriceChangedMessage(name, price)));
 	}
 
 	public String getName() {

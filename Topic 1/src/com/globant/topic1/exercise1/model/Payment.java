@@ -45,7 +45,8 @@ public class Payment {
 	public void pay() {
 		paymentMethod.pay(cart);
 		System.out.println("Identification number of the payment: " + paymentId);
-		SendEmailService.Send(new Email(Email.getNewTransactionSubject(paymentId)));
+		SendEmailService.Send(new Email(Email.getFromServiceEmail(), Email.getManagerEmail(),
+				Email.getNewTransactionSubject(), Email.getNewTransactionMessage(paymentId)));
 	}
 
 }
