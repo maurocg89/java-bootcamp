@@ -30,10 +30,10 @@ public class TestShoppingCart {
 		System.out.println(cart.getAllItems());
 		System.out.println(cart.getTotal());
 		cart.displayList();
-		
+
 		cart.removeItem(it1);
 		cart.removeItem(it1);
-		
+
 		// Testing payments
 		System.out.println(cart.getCheapestItem());
 		System.out.println(cart.getMostExpensiveItem());
@@ -43,7 +43,7 @@ public class TestShoppingCart {
 		payment.pay();
 		payment2.pay();
 		payment3.pay();
-		
+
 		// Testing offers
 		Offer offer1 = new Offer("Black Friday");
 		Offer offer2 = new Offer("Black Monday");
@@ -52,7 +52,6 @@ public class TestShoppingCart {
 		System.out.println(offer1);
 		offer1.removeProduct(p2);
 		offer2.removeProduct(p1);
-		
-		
+
 	}
 }

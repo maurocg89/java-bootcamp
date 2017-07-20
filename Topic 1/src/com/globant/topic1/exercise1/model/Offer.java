@@ -3,6 +3,8 @@ package com.globant.topic1.exercise1.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.globant.topic1.exercise1.services.SendEmailService;
+
 public class Offer {
 
 	private List<Product> offers;
@@ -12,6 +14,8 @@ public class Offer {
 	public Offer(String name) {
 		this.name = name;
 		this.offers = new ArrayList<>();
+		SendEmailService.Send(new Email(Email.getFromServiceEmail(), Email.getManagerEmail(),
+				Email.getAddOfferSubject(), Email.getAddOfferMessage(name)));
 	}
 
 	// Getters and Setters
