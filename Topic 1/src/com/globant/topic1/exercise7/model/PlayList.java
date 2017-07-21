@@ -32,6 +32,7 @@ public class PlayList {
 		if (songs.isEmpty()) {
 			System.out.println("The playlist is empty");
 		} else if (songs.contains(song)) {
+			songs.remove(song);
 			System.out.println("The song " + song + " was removed");
 		} else {
 			System.out.println("The song " + song + " is not in the playlist");
