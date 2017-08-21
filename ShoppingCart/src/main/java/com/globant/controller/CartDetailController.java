@@ -44,7 +44,7 @@ public class CartDetailController {
 	@GetMapping("/cart/{idCart}")
 	public ResponseEntity<List<CartDetail>> getAllCartDetailsByCartId(@PathVariable Long idCart) {
 		if (cartService.getCartById(idCart) == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<CartDetail>>(cartDetailService.getCartDetailsByCart(idCart), HttpStatus.OK);
 	}
@@ -52,7 +52,7 @@ public class CartDetailController {
 	@GetMapping("/user/{idUser}")
 	public ResponseEntity<String> getAllCartDetailsByUserId(@PathVariable Long idUser) {
 		if (userService.getUserById(idUser) == null) {
-			return new ResponseEntity<String>("There is no user with id: " + idUser, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no user with id: " + idUser, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<String>(cartDetailService.getCartDetailsByUser(idUser).toString(), HttpStatus.OK);
 	}
@@ -61,7 +61,7 @@ public class CartDetailController {
 	public ResponseEntity<CartDetail> getCartDetailById(@PathVariable Long id) {
 		CartDetail cartDetail = cartDetailService.getCartDetailById(id);
 		if (cartDetail == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<CartDetail>(cartDetail, HttpStatus.OK);
 	}
@@ -76,7 +76,7 @@ public class CartDetailController {
 		CartDetail cd = cartDetailService.getCartDetailById(cartDetail.getId());
 		if (cd == null) {
 			return new ResponseEntity<String>("There is no cart detail with id: " + cartDetail.getId(),
-					HttpStatus.BAD_REQUEST);
+					HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<String>("Cart detail updated: " + cd, HttpStatus.OK);
 	}
@@ -85,7 +85,7 @@ public class CartDetailController {
 	public ResponseEntity<String> deleteCartDetail(@PathVariable Long id) {
 		CartDetail cd = cartDetailService.getCartDetailById(id);
 		if (cd == null) {
-			return new ResponseEntity<String>("There is no cart detail with id: " + id, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("There is no cart detail with id: " + id, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<String>("Cart detail deleted: " + cd, HttpStatus.OK);
 	}

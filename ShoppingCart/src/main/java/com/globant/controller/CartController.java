@@ -55,7 +55,7 @@ public class CartController {
 	@PutMapping
 	public ResponseEntity<String> updateCart(@RequestBody Cart cart) {
 		if (cartService.getCartById(cart.getId()) == null) {
-			return new ResponseEntity<String>("There is no cart with id: " + cart.getId(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no cart with id: " + cart.getId(), HttpStatus.NO_CONTENT);
 		}
 		cartService.updateCart(cart);
 		return new ResponseEntity<String>("Cart updated: " + cart, HttpStatus.OK);
@@ -65,7 +65,7 @@ public class CartController {
 	public ResponseEntity<String> deleteCart(@PathVariable Long id) {
 		Cart c = cartService.getCartById(id);
 		if (c == null) {
-			return new ResponseEntity<String>("There is no cart with id: " + id, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no cart with id: " + id, HttpStatus.NO_CONTENT);
 		}
 		cartService.deleteCart(id);
 		return new ResponseEntity<String>("Cart deleted: " + c, HttpStatus.OK);

@@ -41,7 +41,7 @@ public class StockController {
 	public ResponseEntity<Stock> getStockById(@PathVariable Long id) {
 		Stock stock = stockService.getStockById(id);
 		if (stock == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Stock>(stock, HttpStatus.OK);
 	}
@@ -50,7 +50,7 @@ public class StockController {
 	public ResponseEntity<Stock> getStockByProductId(@PathVariable Long idProduct) {
 		Product product = productService.getProductById(idProduct);
 		if (product == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Stock>(stockService.getStockByProductId(idProduct), HttpStatus.OK);
 	}

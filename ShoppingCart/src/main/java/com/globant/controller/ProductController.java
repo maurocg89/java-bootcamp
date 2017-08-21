@@ -41,7 +41,7 @@ public class ProductController {
 	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
 		Product product = productService.getProductById(id);
 		if (product == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
@@ -55,7 +55,7 @@ public class ProductController {
 	public ResponseEntity<List<Product>> getProductsByCategoryName(@PathVariable String categoryName) {
 		Category category = categoryService.getCategoryByName(categoryName);
 		if (category == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Product>>(productService.getProductsByCategoryName(categoryName), HttpStatus.OK);
 	}
@@ -68,7 +68,7 @@ public class ProductController {
 	@PutMapping
 	public ResponseEntity<String> updateProduct(@RequestBody Product product) {
 		if (productService.getProductById(product.getId()) == null) {
-			return new ResponseEntity<String>("There is no product with id: " + product.getId(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no product with id: " + product.getId(), HttpStatus.NO_CONTENT);
 		}
 		productService.updateProduct(product);
 		return new ResponseEntity<String>("Product updated: " + product, HttpStatus.OK);
@@ -78,7 +78,7 @@ public class ProductController {
 	public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
 		Product p = productService.getProductById(id);
 		if (p == null) {
-			return new ResponseEntity<String>("There is no product with id: " + id, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no product with id: " + id, HttpStatus.NO_CONTENT);
 		}
 		productService.deleteProduct(id);
 		return new ResponseEntity<String>("Deleted product: " + p, HttpStatus.OK);

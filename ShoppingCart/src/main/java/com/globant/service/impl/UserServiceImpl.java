@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.globant.entity.User;
@@ -16,6 +17,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
+	
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public List<User> getAllUsers() {
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User addUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return userRepository.save(user);
 	}
 

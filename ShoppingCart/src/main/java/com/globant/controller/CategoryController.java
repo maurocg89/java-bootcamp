@@ -35,7 +35,7 @@ public class CategoryController {
 	public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
 		Category cat = categoryService.getCategoryById(id);
 		if (cat == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Category>(cat, HttpStatus.OK);
 	}
@@ -44,7 +44,7 @@ public class CategoryController {
 	public ResponseEntity<Category> getCategoryByName(@PathVariable String name) {
 		Category cat = categoryService.getCategoryByName(name);
 		if (cat == null) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<Category>(cat, HttpStatus.OK);
 	}
@@ -59,7 +59,7 @@ public class CategoryController {
 		Category cat = categoryService.getCategoryById(category.getId());
 		if (cat == null) {
 			return new ResponseEntity<String>("There is no category with id: " + category.getId(),
-					HttpStatus.NOT_FOUND);
+					HttpStatus.NO_CONTENT);
 		}
 		categoryService.updateCategory(category);
 		return new ResponseEntity<String>("Category updated: " + category, HttpStatus.OK);
@@ -69,7 +69,7 @@ public class CategoryController {
 	public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
 		Category cat = categoryService.getCategoryById(id);
 		if (cat == null) {
-			return new ResponseEntity<String>("There is no category with id: " + id, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no category with id: " + id, HttpStatus.NO_CONTENT);
 		}
 		categoryService.deleteCategory(id);
 		return new ResponseEntity<String>("Category deleted: " + cat, HttpStatus.OK);
