@@ -1,8 +1,13 @@
 package com.globant.payment;
 
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.globant.entity.Cart;
 
 //Concrete Strategy
+@Component
+@JsonTypeName(value = "creditCard")
 public class CreditCardPayment implements IPaymentMethod {
 
 	// Fields
@@ -11,7 +16,7 @@ public class CreditCardPayment implements IPaymentMethod {
 	private String cardNumber;
 	private String verificationNumber;
 	private String expirationDate;
-	private PaymentMethod method;
+	private final String method = "Credit Card";
 
 	// Constructor
 	public CreditCardPayment(String name, String cardNumber, String verificationNumber, String expirationDate) {
@@ -19,14 +24,42 @@ public class CreditCardPayment implements IPaymentMethod {
 		this.cardNumber = cardNumber;
 		this.verificationNumber = verificationNumber;
 		this.expirationDate = expirationDate;
-		this.method.setType(PaymentMethod.PaymentType.CREDIT_CARD);
 	}
 
-	@Override
-	public void payCart(Cart cart) {
-		 double total = (cart.getTotal() - calculateDiscount(cart));
-		 //paymentRepository.addPayment(cart, total, discount, date);
-		 
+	public CreditCardPayment() {
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCardNumber() {
+		return cardNumber;
+	}
+
+	public void setCardNumber(String cardNumber) {
+		this.cardNumber = cardNumber;
+	}
+
+	public String getVerificationNumber() {
+		return verificationNumber;
+	}
+
+	public void setVerificationNumber(String verificationNumber) {
+		this.verificationNumber = verificationNumber;
+	}
+
+	public String getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(String expirationDate) {
+		this.expirationDate = expirationDate;
 	}
 
 	@Override
@@ -35,9 +68,14 @@ public class CreditCardPayment implements IPaymentMethod {
 	}
 
 	@Override
-	public PaymentMethod getType() {
-		return this.method;
+	public String getMethod() {
+		return method;
 	}
 
-  
+	@Override
+	public String toString() {
+		return "CreditCardPayment [name=" + name + ", cardNumber=" + cardNumber + ", verificationNumber="
+				+ verificationNumber + ", expirationDate=" + expirationDate + ", method=" + method + "]";
+	}
+
 }

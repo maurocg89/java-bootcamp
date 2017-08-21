@@ -21,45 +21,52 @@ import com.globant.service.CategoryService;
 @RestController
 @RequestMapping("/categories")
 public class CategoryController {
-	
+
 	@Autowired
 	@Qualifier("categoryServiceImpl")
 	private CategoryService categoryService;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Category>> getAllCategories(){
+	public ResponseEntity<List<Category>> getAllCategories() {
 		return new ResponseEntity<List<Category>>(categoryService.getAllCategories(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> getCategoryById(@PathVariable Long id){
-		return new ResponseEntity<Category>(categoryService.getCategoryById(id), HttpStatus.OK);
+	public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+		Category cat = categoryService.getCategoryById(id);
+		if (cat == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Category>(cat, HttpStatus.OK);
 	}
-	
-	
-	// Add a filter (%like)
+
 	@GetMapping("/name/{name}")
-	public ResponseEntity<Category> getCategoryByName(@PathVariable String name){
-		return new ResponseEntity<Category>(categoryService.getCategoryByName(name), HttpStatus.OK);
+	public ResponseEntity<Category> getCategoryByName(@PathVariable String name) {
+		Category cat = categoryService.getCategoryByName(name);
+		if (cat == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Category>(cat, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Category> addCategory(@RequestBody Category category){
+	public ResponseEntity<Category> addCategory(@RequestBody Category category) {
 		return new ResponseEntity<Category>(categoryService.addCategory(category), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
-	public ResponseEntity<String> updateCategory(@RequestBody Category category){
+	public ResponseEntity<String> updateCategory(@RequestBody Category category) {
 		Category cat = categoryService.getCategoryById(category.getId());
 		if (cat == null) {
-			return new ResponseEntity<String>("There is no category with id: " + category.getId(), HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("There is no category with id: " + category.getId(),
+					HttpStatus.NOT_FOUND);
 		}
 		categoryService.updateCategory(category);
 		return new ResponseEntity<String>("Category updated: " + category, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteCategory(@PathVariable Long id){
+	public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
 		Category cat = categoryService.getCategoryById(id);
 		if (cat == null) {
 			return new ResponseEntity<String>("There is no category with id: " + id, HttpStatus.NOT_FOUND);
@@ -67,5 +74,5 @@ public class CategoryController {
 		categoryService.deleteCategory(id);
 		return new ResponseEntity<String>("Category deleted: " + cat, HttpStatus.OK);
 	}
-	
+
 }

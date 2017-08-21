@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.globant.entity.Category;
 import com.globant.entity.Product;
+import com.globant.service.CategoryService;
 import com.globant.service.ProductService;
 
 @RestController
@@ -26,6 +28,10 @@ public class ProductController {
 	@Qualifier("productServiceImpl")
 	private ProductService productService;
 
+	@Autowired
+	@Qualifier("categoryServiceImpl")
+	private CategoryService categoryService;
+
 	@GetMapping
 	public ResponseEntity<List<Product>> getAllProducts() {
 		return new ResponseEntity<List<Product>>(productService.getAllProducts(), HttpStatus.OK);
@@ -33,7 +39,11 @@ public class ProductController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-		return new ResponseEntity<Product>(productService.getProductById(id), HttpStatus.OK);
+		Product product = productService.getProductById(id);
+		if (product == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Product>(product, HttpStatus.OK);
 	}
 
 	@GetMapping("/name/{name}")
@@ -43,6 +53,10 @@ public class ProductController {
 
 	@GetMapping("/category/{categoryName}")
 	public ResponseEntity<List<Product>> getProductsByCategoryName(@PathVariable String categoryName) {
+		Category category = categoryService.getCategoryByName(categoryName);
+		if (category == null) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
 		return new ResponseEntity<List<Product>>(productService.getProductsByCategoryName(categoryName), HttpStatus.OK);
 	}
 
@@ -50,11 +64,10 @@ public class ProductController {
 	public ResponseEntity<Product> addProduct(@RequestBody Product product) {
 		return new ResponseEntity<Product>(productService.addProduct(product), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
 	public ResponseEntity<String> updateProduct(@RequestBody Product product) {
-		Product p = productService.getProductById(product.getId());
-		if (p == null) {
+		if (productService.getProductById(product.getId()) == null) {
 			return new ResponseEntity<String>("There is no product with id: " + product.getId(), HttpStatus.NOT_FOUND);
 		}
 		productService.updateProduct(product);

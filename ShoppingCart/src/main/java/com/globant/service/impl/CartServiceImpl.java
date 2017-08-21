@@ -16,7 +16,7 @@ public class CartServiceImpl implements CartService {
 	@Autowired
 	@Qualifier("cartRepository")
 	private CartRepository cartRepository;
-	
+
 	@Override
 	public List<Cart> getAllCarts() {
 		return cartRepository.findAll();
@@ -41,5 +41,5 @@ public class CartServiceImpl implements CartService {
 	public Cart getCartById(Long id) {
 		return cartRepository.findOne(id);
 	}
-	
+
 }

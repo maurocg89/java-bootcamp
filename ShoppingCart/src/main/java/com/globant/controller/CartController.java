@@ -1,5 +1,6 @@
 package com.globant.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,48 +17,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globant.entity.Cart;
+import com.globant.service.CartDetailService;
 import com.globant.service.CartService;
 
 @RestController
 @RequestMapping("/carts")
 public class CartController {
-	
+
 	@Autowired
 	@Qualifier("cartServiceImpl")
 	private CartService cartService;
-	
+
+	@Autowired
+	@Qualifier("cartDetailServiceImpl")
+	private CartDetailService cartDetailService;
+
 	@GetMapping
-	public ResponseEntity<List<Cart>> getAllCarts(){
+	public ResponseEntity<List<Cart>> getAllCarts() {
 		return new ResponseEntity<List<Cart>>(cartService.getAllCarts(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Cart> getCartById(@PathVariable Long id){
-		return new ResponseEntity<Cart>(cartService.getCartById(id), HttpStatus.OK);
+	public ResponseEntity<Cart> getCartById(@PathVariable Long id) {
+		Cart cart = cartService.getCartById(id);
+		if (cart == null) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Cart>(cart, HttpStatus.OK);
 	}
 
 	@PostMapping
-	public ResponseEntity<Cart> addCart(@RequestBody Cart cart){
+	public ResponseEntity<Cart> addCart(@RequestBody Cart cart) {
+		cart.setDate(LocalDate.now());
 		return new ResponseEntity<Cart>(cartService.addCart(cart), HttpStatus.CREATED);
 	}
-	
+
 	@PutMapping
-	public ResponseEntity<String> updateCart(@RequestBody Cart cart){
-		Cart c = cartService.getCartById(cart.getId());
-		if (c == null) {
-			return new ResponseEntity<String>("There is no cart with id: " + cart.getId(), HttpStatus.BAD_REQUEST);
+	public ResponseEntity<String> updateCart(@RequestBody Cart cart) {
+		if (cartService.getCartById(cart.getId()) == null) {
+			return new ResponseEntity<String>("There is no cart with id: " + cart.getId(), HttpStatus.NOT_FOUND);
 		}
 		cartService.updateCart(cart);
 		return new ResponseEntity<String>("Cart updated: " + cart, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteCart(@PathVariable Long id){
+	public ResponseEntity<String> deleteCart(@PathVariable Long id) {
 		Cart c = cartService.getCartById(id);
 		if (c == null) {
-			return new ResponseEntity<String>("There is no cart with id: " + id, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("There is no cart with id: " + id, HttpStatus.NOT_FOUND);
 		}
 		cartService.deleteCart(id);
 		return new ResponseEntity<String>("Cart deleted: " + c, HttpStatus.OK);
 	}
+
 }

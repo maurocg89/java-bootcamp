@@ -20,17 +20,17 @@ public class CartDetail {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-	
-	@JsonBackReference(value="cart-cartDetails")
+
+	@JsonBackReference(value = "cart-cartDetails")
 	@ManyToOne
 	@JoinColumn(name = "cart_id", nullable = false)
 	private Cart cart;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
-	
-	@Column(name = "quantity", columnDefinition="INT default '0'")
+
+	@Column(name = "quantity", columnDefinition = "INT default '0'")
 	private int quantity;
 
 	public CartDetail() {
@@ -76,7 +76,8 @@ public class CartDetail {
 
 	@Override
 	public String toString() {
-		return "CartDetail [id=" + id + ", cart_id=" + cart.getId() + ", product=" + product + ", quantity=" + quantity + "]";
+		return "CartDetail [id=" + id + ", cart_id=" + cart.getId() + ", product=" + product + ", quantity=" + quantity
+				+ "]";
 	}
 
 	@Override

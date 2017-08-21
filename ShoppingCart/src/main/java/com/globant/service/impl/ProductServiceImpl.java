@@ -11,8 +11,8 @@ import com.globant.repository.ProductRepository;
 import com.globant.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService{
-	
+public class ProductServiceImpl implements ProductService {
+
 	@Autowired
 	@Qualifier("productRepository")
 	private ProductRepository productRepository;
@@ -51,5 +51,5 @@ public class ProductServiceImpl implements ProductService{
 	public List<Product> getProductsByCategoryName(String categoryName) {
 		return productRepository.findProductsByCategory(categoryName);
 	}
-	
+
 }

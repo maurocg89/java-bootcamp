@@ -2,7 +2,6 @@ package com.globant.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,28 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "category")
 public class Category {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "id")
 	private Long id;
-	
-	@Column(name="name", unique=true, nullable=false)
+
+	@Column(name = "name", unique = true, nullable = false)
 	private String name;
-	
-	@Column(name="descrpition")
+
+	@Column(name = "descrpition")
 	private String description;
-	
-	@JsonManagedReference(value="category-products")
-	@OneToMany(mappedBy="category", cascade=CascadeType.REMOVE)
+
+	@JsonManagedReference(value = "category-products")
+	@OneToMany(mappedBy = "category")
 	private List<Product> products;
-	
+
 	public Category() {
 	}
 

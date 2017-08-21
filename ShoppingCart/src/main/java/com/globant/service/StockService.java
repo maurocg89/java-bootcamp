@@ -15,7 +15,7 @@ public interface StockService {
 	void removeStock(Long id);
 
 	Stock getStockById(Long id);
-	
+
 	Stock getStockByProductId(Long idProduct);
 
 }

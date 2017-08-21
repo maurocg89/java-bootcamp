@@ -1,96 +1,118 @@
 package com.globant.controller;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.globant.entity.Cart;
 import com.globant.entity.Payment;
-import com.globant.payment.PaymentMethod;
-import com.globant.payment.PaymentMethodService;
+import com.globant.payment.CreditCardPayment;
+import com.globant.payment.IPaymentMethod;
+import com.globant.payment.PaypalPayment;
 import com.globant.service.CartService;
+import com.globant.service.PaymentMethodService;
 
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
 
 	@Autowired
-	@Qualifier("creditCardPaymentServiceImpl")
-	private PaymentMethodService creditCardService;
-
-	@Autowired
-	@Qualifier("paypalPaymentServiceImpl")
-	private PaymentMethodService paypalService;
+	@Qualifier("paymentMethodServiceImpl")
+	private PaymentMethodService paymentMethodService;
 
 	@Autowired
 	@Qualifier("cartServiceImpl")
 	private CartService cartService;
 
-	/*
-	 * @GetMapping public ResponseEntity<List<Payment>> getAllPayments(){
-	 * 
-	 * }
-	 */
+	@GetMapping
+	public ResponseEntity<List<Payment>> getAllPayments() {
+		return new ResponseEntity<List<Payment>>(paymentMethodService.getAllPayments(), HttpStatus.OK);
+	}
 
-	/*
-	 * @GetMapping("/{id}") public void getPaymentById(@PathVariable Long id){
-	 * 
-	 * }
-	 */
-	@PostMapping("/{idCart}")
-	public ResponseEntity<String> getCreditCardAmount(@PathVariable Long idCart, @RequestBody PaymentMethod method) {
+	@GetMapping("/{id}")
+	public ResponseEntity<Payment> getPaymentById(@PathVariable Long id) {
+		Payment payment = paymentMethodService.getPaymentById(id);
+		if (payment == null) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Payment>(payment, HttpStatus.OK);
+	}
+
+	@GetMapping("/cart/{idCart}")
+	public ResponseEntity<Payment> getPaymentByCartId(@PathVariable Long idCart) {
 		Cart cart = cartService.getCartById(idCart);
 		if (cart == null) {
-			return new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
+		if (!cart.getPaid()) {
+			return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Payment>(paymentMethodService.getPaymentByCartId(idCart), HttpStatus.OK);
+	}
+
+	@GetMapping("/{idCart}/paypal")
+	public ResponseEntity<String> getPaypalAmount(@PathVariable Long idCart) {
+		Cart cart = cartService.getCartById(idCart);
+		PaypalPayment pp = new PaypalPayment();
+		if (cart == null) {
+			return new ResponseEntity<String>("There is no cart with id: " + idCart, HttpStatus.NO_CONTENT);
 		}
 		double total = cart.getTotal();
-		double discount = 0;
+		double discount = pp.calculateDiscount(cart);
 		DecimalFormat df = new DecimalFormat("00.00");
+		return new ResponseEntity<String>("Paypal method\nSubTotal: " + df.format(total) + "\nDiscount: "
+				+ df.format(discount) + "\nTotal to pay: " + df.format(total - discount), HttpStatus.OK);
 
-		if (method.getType().equals(PaymentMethod.PaymentType.CREDIT_CARD)) {
-			discount = creditCardService.calculateDiscount(cart);
-		} else if (method.getType().equals(PaymentMethod.PaymentType.PAYPAL)) {
-			discount = paypalService.calculateDiscount(cart);
-		} else{
-			return new ResponseEntity<String>("",HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping("/{idCart}/creditCard")
+	public ResponseEntity<String> getCreditCardAmount(@PathVariable Long idCart) {
+		Cart cart = cartService.getCartById(idCart);
+		CreditCardPayment cc = new CreditCardPayment();
+		if (cart == null) {
+			return new ResponseEntity<String>("There is no cart with id: " + idCart, HttpStatus.NO_CONTENT);
+		}
+		double total = cart.getTotal();
+		double discount = cc.calculateDiscount(cart);
+		DecimalFormat df = new DecimalFormat("00.00");
+		return new ResponseEntity<String>("Credit card method\nSubTotal: " + df.format(total) + "\nDiscount: "
+				+ df.format(discount) + "\nTotal to pay: " + df.format(total - discount), HttpStatus.OK);
+
+	}
+
+	// JSON: {"creditCart/paypal:{"parameters":"values"}"}
+	@PostMapping("/{idCart}/pay")
+	public ResponseEntity<String> addPayment(@PathVariable Long idCart, @RequestBody IPaymentMethod method) {
+		Cart cart = cartService.getCartById(idCart);
+		if (cart == null) {
+			return new ResponseEntity<String>("There is no cart with id: " + idCart, HttpStatus.NO_CONTENT);
+		}
+		if (cart.getPaid()) {
+			return new ResponseEntity<String>("The cart is already paid", HttpStatus.NO_CONTENT);
 		}
 
-		return new ResponseEntity<String>(
-				"SubTotal: " + df.format(total) + "\nDiscount: " + df.format(discount) + "\nTotal to pay: " + df.format(total - discount),
-				HttpStatus.OK);
+		double total = cart.getTotal();
+		double discount = method.calculateDiscount(cart);
+		DecimalFormat df = (DecimalFormat) NumberFormat.getInstance(Locale.ENGLISH);
+		df.applyPattern("00.00");
+		double amountToPay = Double.valueOf(df.format(total - discount));
 
-	}
+		paymentMethodService.payCart(cart, method, amountToPay);
 
-	@GetMapping("/{idCart}/paypal/")
-	public void getPayPalAmount(@PathVariable Long id) {
-	}
-
-	@PostMapping("/{idCart}/pay")
-	public void addPayment(@RequestBody Payment payment) {
-
-	}
-
-	@PostMapping("/{idCart}/paypal/pay")
-	public void addPaymentPaypal(@RequestBody Payment payment) {
-
-	}
-
-	@PutMapping
-	public void updatePayment(@RequestBody Payment payment) {
-	}
-
-	@DeleteMapping("/{id}")
-	public void deletePayment(@PathVariable Long id) {
+		return new ResponseEntity<String>("Payment method: " + method.getMethod().toString() + "\nSubTotal: "
+				+ df.format(total) + "\nDiscount: " + df.format(discount) + "\nTotal paid: " + amountToPay,
+				HttpStatus.CREATED);
 	}
 }

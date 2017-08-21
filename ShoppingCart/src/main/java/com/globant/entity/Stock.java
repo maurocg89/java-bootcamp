@@ -1,5 +1,6 @@
 package com.globant.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,14 +21,13 @@ public class Stock {
 	@Column(name = "id")
 	private Long id;
 
-	@JsonBackReference(value="stock-product")
-	@OneToOne
-	@JoinColumn(name="product_id", nullable = false)
+	@JsonBackReference(value = "stock-product")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
-	
-	@Column(name = "quantity", columnDefinition="INT default '0'")
-	private int quantity;
 
+	@Column(name = "quantity", columnDefinition = "INT default '0'")
+	private int quantity;
 
 	public Stock() {
 	}

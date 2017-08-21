@@ -7,5 +7,5 @@ import com.globant.entity.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long>{
-
+	
 }

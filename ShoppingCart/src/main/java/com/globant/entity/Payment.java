@@ -2,6 +2,7 @@ package com.globant.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
@@ -22,8 +24,9 @@ public class Payment {
 	@Column(name = "id")
 	private Long id;
 
-	@OneToOne
-	@JoinColumn(name = "cart_id")
+	@JsonBackReference(value = "cart-payment")
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "cart_id", nullable = false)
 	private Cart cart;
 
 	@Column(name = "method", nullable = false)
@@ -33,13 +36,17 @@ public class Payment {
 	@Column(name = "date", columnDefinition = "DATE", nullable = false)
 	private LocalDate date;
 
+	@Column(name = "amount")
+	private Double amount;
+
 	public Payment() {
 
 	}
 
-	public Payment(Cart cart, String method) {
+	public Payment(Cart cart, String method, Double amount) {
 		this.cart = cart;
 		this.method = method;
+		this.amount = amount;
 		this.date = LocalDate.now();
 	}
 
@@ -75,6 +82,14 @@ public class Payment {
 		this.date = date;
 	}
 
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -108,11 +123,8 @@ public class Payment {
 
 	@Override
 	public String toString() {
-		return "Payment [id=" + id + ", cart_id=" + cart.getId() + ", method=" + method + ", date=" + date + "]";
+		return "Payment [id=" + id + ", cart_id=" + cart.getId() + ", method=" + method + ", amount=" + amount
+				+ ", date=" + date + "]";
 	}
-
-	/*
-	 * private Double discount; private Double total;
-	 */
 
 }

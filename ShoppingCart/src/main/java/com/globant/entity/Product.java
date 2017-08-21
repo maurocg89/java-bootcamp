@@ -16,17 +16,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "product",
-uniqueConstraints={@UniqueConstraint(columnNames = {"name", "category_id"})})
+@Table(name = "product", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "category_id" }) })
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Long id;
-	
-	@JsonBackReference(value="category-products")
-	@ManyToOne // manytomany
+
+	@JsonBackReference(value = "category-products")
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "category_id")
 	private Category category;
 
@@ -38,9 +37,9 @@ public class Product {
 
 	@Column(name = "price", columnDefinition = "Decimal(10,2) default '0.00'")
 	private Double price;
-	
-	@JsonManagedReference(value="stock-product")
-	@OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+
+	@JsonManagedReference(value = "stock-product")
+	@OneToOne(mappedBy = "product")
 	private Stock stock;
 
 	public Product() {
@@ -61,7 +60,7 @@ public class Product {
 	public void setId(Long productId) {
 		this.id = productId;
 	}
-	
+
 	public Stock getStock() {
 		return stock;
 	}
@@ -104,8 +103,8 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", category_id=" + category.getId() + ", name=" + name + ", description=" + description
-				+ ", price=" + price + ", stock=" + stock + "]";
+		return "Product [id=" + id + ", category_id=" + category.getId() + ", name=" + name + ", description="
+				+ description + ", price=" + price + ", stock=" + stock + "]";
 	}
 
 	@Override

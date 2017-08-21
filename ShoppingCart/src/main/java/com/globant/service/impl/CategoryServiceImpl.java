@@ -11,12 +11,12 @@ import com.globant.repository.CategoryRepository;
 import com.globant.service.CategoryService;
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
 
 	@Autowired
 	@Qualifier("categoryRepository")
 	private CategoryRepository categoryRepository;
-	
+
 	@Override
 	public List<Category> getAllCategories() {
 		return categoryRepository.findAll();
@@ -26,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService{
 	public Category addCategory(Category category) {
 		return categoryRepository.save(category);
 	}
-	
+
 	@Override
 	public Category updateCategory(Category category) {
 		return categoryRepository.save(category);
@@ -37,7 +37,7 @@ public class CategoryServiceImpl implements CategoryService{
 		try {
 			categoryRepository.delete(id);
 		} catch (Exception e) {
-		
+
 		}
 	}
 
@@ -62,7 +62,5 @@ public class CategoryServiceImpl implements CategoryService{
 		}
 		return category;
 	}
-	
-	
-	
+
 }

@@ -1,6 +1,5 @@
 package com.globant.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +36,7 @@ public class User {
 
 	// if delete a user, delete the cart associated
 	@JsonManagedReference(value = "cart-user")
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL) 
+	@OneToOne(mappedBy = "user")
 	private Cart cart;
 
 	/*
@@ -112,8 +111,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", password=" + password + ", address=" + address + ", email="
-				+ email + ", phone=" + phone + "]";
+		return "User [id=" + id + ", name=" + name + ", address=" + address + ", email=" + email + ", phone=" + phone
+				+ "]";
 	}
 
 	@Override

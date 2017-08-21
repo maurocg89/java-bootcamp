@@ -17,9 +17,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-// Cart
 @Entity
 @Table(name = "cart")
 public class Cart {
@@ -30,18 +30,19 @@ public class Cart {
 	private Long id;
 
 	@JsonBackReference(value = "cart-user")
-	@OneToOne
-	@JoinColumn(name = "user_id", nullable = false)
+	@OneToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "user_id", nullable = false, unique = true)
 	private User user;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-	@Column(name = "date", columnDefinition = "DATE")
+	@Column(name = "date")
 	private LocalDate date;
 
 	@Column(name = "paid")
 	private Boolean paid;
 
-	@OneToOne(mappedBy = "cart", cascade = CascadeType.REMOVE)
+	@JsonManagedReference(value = "cart-payment")
+	@OneToOne(mappedBy = "cart")
 	private Payment payment;
 
 	@JsonManagedReference(value = "cart-cartDetails")
@@ -105,6 +106,7 @@ public class Cart {
 		this.payment = payment;
 	}
 
+	@JsonIgnore
 	public double getTotal() {
 		double total = 0;
 		for (CartDetail cartDetail : cartDetails) {
@@ -113,16 +115,17 @@ public class Cart {
 		return total;
 	}
 
+	@JsonIgnore
 	public CartDetail getCheapestItem() {
 		Comparator<CartDetail> comparatorItem = (item1,
 				item2) -> item1.getProduct().getPrice() < item2.getProduct().getPrice() ? 1 : -1;
 		return cartDetails.stream().max(comparatorItem).orElse(null);
 	}
 
-	
 	@Override
 	public String toString() {
-		return "Cart [id=" + id + ", user_id=" + user.getId() + ", date=" + date + ", paid=" + paid + ", payment=" + payment + "]";
+		return "Cart [id=" + id + ", user_id=" + user.getId() + ", date=" + date + ", paid=" + paid + ", payment="
+				+ payment + "]";
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class StockServiceImpl implements StockService {
 	@Autowired
 	@Qualifier("stockRepository")
 	private StockRepository stockRepository;
-	
+
 	@Override
 	public List<Stock> getAllStock() {
 		return stockRepository.findAll();
@@ -34,7 +34,7 @@ public class StockServiceImpl implements StockService {
 
 	@Override
 	public void removeStock(Long id) {
-		stockRepository.delete(id);	
+		stockRepository.delete(id);
 	}
 
 	@Override
@@ -46,6 +46,5 @@ public class StockServiceImpl implements StockService {
 	public Stock getStockByProductId(Long idProduct) {
 		return stockRepository.findStockByProductId(idProduct);
 	}
-
 
 }

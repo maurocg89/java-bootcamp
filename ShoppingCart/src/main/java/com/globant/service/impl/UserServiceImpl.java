@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	@Qualifier("userRepository")
 	private UserRepository userRepository;
-	
+
 	@Override
 	public List<User> getAllUsers() {
 		return userRepository.findAll();
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void removeUser(Long id) {
-		userRepository.delete(id);	
+	public void deleteUser(Long id) {
+		userRepository.delete(id);
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserByName(String name) {
+	public User getUserByName(String name) {
 		return userRepository.findUserByName(name);
 	}
 
 	@Override
-	public User findUserByEmail(String email) {
+	public User getUserByEmail(String email) {
 		return userRepository.findUserByEmail(email);
 	}
 
